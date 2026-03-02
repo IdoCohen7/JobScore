@@ -1,8 +1,11 @@
+using FluentValidation;
 using JobScoreServer.Data;
 using JobScoreServer.Services;
+using JobScoreServer.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using JobScoreServer.Validators;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -53,9 +56,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddValidatorsFromAssemblyContaining<RegisterValidator>();
+
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IRuleService, RuleService>();
+builder.Services.AddScoped<IJobDescriptionService, JobDescriptionService>();
 
 builder.Services.AddDbContext<DBContext>(options =>
 {

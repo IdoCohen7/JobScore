@@ -3,6 +3,7 @@ using JobScoreServer.DTOs;
 using JobScoreServer.Models;
 using JobScoreServer.Helpers;
 using Microsoft.EntityFrameworkCore;
+using JobScoreServer.Services.Interfaces;
 
 namespace JobScoreServer.Services
 {

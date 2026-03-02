@@ -1,8 +1,8 @@
-﻿using JobScoreServer.Services;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using JobScoreServer.DTOs;
+using JobScoreServer.Services.Interfaces;
 
 namespace JobScoreServer.Controllers
 {

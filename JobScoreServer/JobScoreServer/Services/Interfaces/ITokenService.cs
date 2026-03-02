@@ -1,6 +1,6 @@
 ﻿using JobScoreServer.Models;
 
-namespace JobScoreServer.Services
+namespace JobScoreServer.Services.Interfaces
 {
     public interface ITokenService
     {

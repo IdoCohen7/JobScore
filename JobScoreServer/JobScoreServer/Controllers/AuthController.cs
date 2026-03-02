@@ -1,7 +1,7 @@
-﻿using JobScoreServer.Services;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using JobScoreServer.DTOs;
+using JobScoreServer.Services.Interfaces;
 
 namespace JobScoreServer.Controllers
 {
@@ -28,15 +28,7 @@ namespace JobScoreServer.Controllers
                     return Unauthorized(new { error = "Email or password are incorrect" });
                 }
 
-                var cookieOptions = new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict,
-                    Expires = DateTime.UtcNow.AddHours(2)
-                };
-
-                Response.Cookies.Append("jwt_token", token, cookieOptions);
+                SetAuthCookie(token);
 
                 return Ok(new { message = "You've logged in successfully!" });
             }
@@ -53,15 +45,7 @@ namespace JobScoreServer.Controllers
             {
                 var token = await _authService.Register(request);
 
-                var cookieOptions = new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict,
-                    Expires = DateTime.UtcNow.AddHours(2)
-                };
-
-                Response.Cookies.Append("jwt_token", token, cookieOptions);
+                SetAuthCookie(token);
 
                 return Ok(new { message = "You've registered successfully!" });
             }
@@ -69,6 +53,19 @@ namespace JobScoreServer.Controllers
             {
                 return BadRequest(new { error = ex.Message });
             }
+        }
+
+        private void SetAuthCookie(string token)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddHours(2)
+            };
+
+            Response.Cookies.Append("jwt_token", token, cookieOptions);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using JobScoreServer.Data;
 using JobScoreServer.DTOs;
+using JobScoreServer.Services.Interfaces;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;

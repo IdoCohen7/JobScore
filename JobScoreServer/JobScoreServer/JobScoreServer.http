@@ -31,6 +31,29 @@ Content-Type: application/json
 
 ###
 
+### Create Job Description as authenticated user (userId extracted from cookie)
+### Must be logged in first!
+POST {{JobScoreServer_HostAddress}}/api/jobdescription
+Content-Type: application/json
+
+{
+  "title": "Senior Software Engineer",
+  "content": "We are looking for a rockstar ninja who can leverage synergies..."
+}
+
+###
+
+### Try to create Job Description without login (should fail - 401 Unauthorized)
+POST {{JobScoreServer_HostAddress}}/api/jobdescription
+Content-Type: application/json
+
+{
+  "title": "Job Title",
+  "content": "Job content"
+}
+
+###
+
 ### Try to access Rules as regular user (should fail - 403 Forbidden)
 GET {{JobScoreServer_HostAddress}}/api/rule
 Accept: application/json

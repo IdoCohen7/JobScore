@@ -1,6 +1,6 @@
 ﻿using JobScoreServer.DTOs;
 
-namespace JobScoreServer.Services
+namespace JobScoreServer.Services.Interfaces
 {
     public interface IAuthService
     {
