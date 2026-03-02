@@ -1,6 +1,120 @@
 @JobScoreServer_HostAddress = http://localhost:5041
 
+### Test Weather Forecast (no auth required)
 GET {{JobScoreServer_HostAddress}}/weatherforecast/
 Accept: application/json
+
+###
+
+### Register a new user (regular user, not admin)
+POST {{JobScoreServer_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john@example.com",
+  "password": "Password123!",
+  "passwordConfirm": "Password123!"
+}
+
+###
+
+### Login as regular user
+POST {{JobScoreServer_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "Password123!"
+}
+
+###
+
+### Try to access Rules as regular user (should fail - 403 Forbidden)
+GET {{JobScoreServer_HostAddress}}/api/rule
+Accept: application/json
+
+###
+
+### Login as admin (you'll need to manually create an admin user in DB first)
+POST {{JobScoreServer_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@jobscore.com",
+  "password": "AdminPassword123!"
+}
+
+###
+
+### Access Rules as admin (should succeed - 200 OK)
+GET {{JobScoreServer_HostAddress}}/api/rule
+Accept: application/json
+
+###
+
+### Update Rule Weights as admin (should succeed - 200 OK)
+### Note: Sum of all weights must equal 100
+PUT {{JobScoreServer_HostAddress}}/api/rule/weights
+Content-Type: application/json
+
+[
+  {
+    "id": 1,
+    "weight": 30
+  },
+  {
+    "id": 2,
+    "weight": 25
+  },
+  {
+    "id": 3,
+    "weight": 20
+  },
+  {
+    "id": 4,
+    "weight": 15
+  },
+  {
+    "id": 5,
+    "weight": 10
+  }
+]
+
+###
+
+### Try to update with invalid weights (sum != 100, should fail - 400 Bad Request)
+PUT {{JobScoreServer_HostAddress}}/api/rule/weights
+Content-Type: application/json
+
+[
+  {
+    "id": 1,
+    "weight": 50
+  },
+  {
+    "id": 2,
+    "weight": 30
+  }
+]
+
+###
+
+### Try to update weights as regular user (should fail - 403 Forbidden)
+### First login as regular user, then try this request
+PUT {{JobScoreServer_HostAddress}}/api/rule/weights
+Content-Type: application/json
+
+[
+  {
+    "id": 1,
+    "weight": 40
+  },
+  {
+    "id": 2,
+    "weight": 60
+  }
+]
 
 ###
