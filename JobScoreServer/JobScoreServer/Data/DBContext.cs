@@ -11,6 +11,8 @@ namespace JobScoreServer.Data
         public DbSet<Rule> Rules { get; set; }
         public DbSet<Violation> Violations { get; set; }
 
+        public DbSet<Buzzword> Buzzwords { get; set; }
+
         public DBContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -18,6 +20,7 @@ namespace JobScoreServer.Data
             modelBuilder.ApplyConfiguration(new JobDescriptionConfiguration());
             modelBuilder.ApplyConfiguration(new RuleConfiguration());
             modelBuilder.ApplyConfiguration(new ViolationConfiguration());
+            modelBuilder.ApplyConfiguration(new BuzzwordConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
