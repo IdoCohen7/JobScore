@@ -2,10 +2,11 @@ using FluentValidation;
 using JobScoreServer.Data;
 using JobScoreServer.Services;
 using JobScoreServer.Services.Interfaces;
+using JobScoreServer.Services.Rules;
+using JobScoreServer.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using JobScoreServer.Validators;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,6 +63,10 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IRuleService, RuleService>();
 builder.Services.AddScoped<IJobDescriptionService, JobDescriptionService>();
+builder.Services.AddScoped<IJobEvaluatorService, JobEvaluatorService>();
+builder.Services.AddScoped<IJobEvaluationRule, ReadingTimeRule>();
+builder.Services.AddScoped<IJobEvaluationRule, ContactEmailRule>();
+builder.Services.AddScoped<IJobEvaluationRule, StandardizationRule>();
 
 builder.Services.AddDbContext<DBContext>(options =>
 {

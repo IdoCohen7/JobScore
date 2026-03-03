@@ -9,34 +9,34 @@ namespace JobScoreServer.Services
     public class JobDescriptionService : IJobDescriptionService
     {
         private readonly DBContext _dbcontext;
+        private readonly IJobEvaluatorService _jobEvaluatorService;
 
-        public JobDescriptionService(DBContext dbcontext)
+        public JobDescriptionService(DBContext dbcontext, IJobEvaluatorService jobEvaluatorService)
         {
             _dbcontext = dbcontext;
+            _jobEvaluatorService = jobEvaluatorService;
         }
 
         public async Task<JobDescriptionDTO> CreateJobDescription(CreateJobDescriptionDTO request, int userId)
         {
-            try
+            var description = new JobDescription
             {
-                var description = new JobDescription
-                {
-                    UserId = userId, // received from controller
-                    Title = request.title,
-                    Content = request.content,
-                    Score = 0
-                };
+                UserId = userId,
+                Title = request.title,
+                Content = request.content,
+                Score = 0
+            };
 
-                _dbcontext.JobDescriptions.Add(description);
-                await _dbcontext.SaveChangesAsync();
+            _dbcontext.JobDescriptions.Add(description);
+            await _dbcontext.SaveChangesAsync();
 
-                return description.Adapt<JobDescriptionDTO>();
-            }
+            // Trigger evaluation
+            await _jobEvaluatorService.EvaluateAndSaveAsync(description.Id, request.content);
 
-            catch (Exception ex)
-            {
-                throw;
-            }
+            // Reload to get updated score
+            await _dbcontext.Entry(description).ReloadAsync();
+
+            return description.Adapt<JobDescriptionDTO>();
         }
     }
 }
