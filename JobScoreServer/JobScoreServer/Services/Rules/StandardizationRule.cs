@@ -18,7 +18,7 @@ namespace JobScoreServer.Services.Rules
 
         public Task<bool> EvaluateAsync(string jobDescriptionContent)
         {
-            // This rule requires title, use default implementation
+            
             return Task.FromResult(true);
         }
 
@@ -31,7 +31,7 @@ namespace JobScoreServer.Services.Rules
 
             var lowerTitle = title.ToLower();
 
-            // Check if title contains any seniority level indicator
+            // checks if title contains any seniority level indicator
             var hasSeniorityLevel = SeniorityLevels.Any(level =>
                 lowerTitle.Contains(level, StringComparison.OrdinalIgnoreCase));
 

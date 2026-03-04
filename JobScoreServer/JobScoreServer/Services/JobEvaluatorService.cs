@@ -23,17 +23,17 @@ namespace JobScoreServer.Services
             decimal totalScore = 100;
             var violations = new List<Violation>();
 
-            // Get job description to access title
+            // get job description to access title
             var jobDescription = await _dbContext.JobDescriptions.FindAsync(jobDescriptionId);
             if (jobDescription == null) return;
 
-            // Evaluate each rule
+            // evaluate each rule
             foreach (var rule in _rules)
             {
                 var ruleConfig = rulesFromDb.FirstOrDefault(r => r.Id == rule.RuleId);
                 if (ruleConfig == null) continue;
 
-                // Pass both title and content
+                // pass both title and content
                 var passed = await rule.EvaluateAsync(jobDescription.Title, content);
 
                 if (!passed)

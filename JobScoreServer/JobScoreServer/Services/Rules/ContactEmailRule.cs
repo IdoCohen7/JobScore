@@ -19,6 +19,6 @@ namespace JobScoreServer.Services.Rules
             return Task.FromResult(containsEmail);
         }
 
-        // Uses default implementation that ignores title
+        
     }
 }

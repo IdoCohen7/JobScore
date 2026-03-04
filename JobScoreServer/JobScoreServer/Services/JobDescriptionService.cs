@@ -30,10 +30,10 @@ namespace JobScoreServer.Services
             _dbcontext.JobDescriptions.Add(description);
             await _dbcontext.SaveChangesAsync();
 
-            // Trigger evaluation
+            // trigger evaluation
             await _jobEvaluatorService.EvaluateAndSaveAsync(description.Id, request.content);
 
-            // Reload to get updated score
+            // reload to get updated score
             await _dbcontext.Entry(description).ReloadAsync();
 
             return description.Adapt<JobDescriptionDTO>();

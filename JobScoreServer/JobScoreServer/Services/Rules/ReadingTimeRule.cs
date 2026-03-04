@@ -28,6 +28,6 @@ namespace JobScoreServer.Services.Rules
             return Task.FromResult(isValid);
         }
 
-        // Uses default implementation that ignores title
+        
     }
 }
