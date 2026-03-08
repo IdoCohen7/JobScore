@@ -65,6 +65,7 @@ builder.Services.AddScoped<IRuleService, RuleService>();
 builder.Services.AddScoped<IJobDescriptionService, JobDescriptionService>();
 builder.Services.AddScoped<IBuzzwordService, BuzzwordService>();
 builder.Services.AddScoped<IJobEvaluatorService, JobEvaluatorService>();
+builder.Services.AddScoped<IMetricService, MetricService>();
 
 // singletons for stateless rules
 builder.Services.AddSingleton<IJobEvaluationRule, ReadingTimeRule>();
