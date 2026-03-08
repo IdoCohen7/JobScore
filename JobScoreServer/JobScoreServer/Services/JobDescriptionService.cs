@@ -38,5 +38,10 @@ namespace JobScoreServer.Services
 
             return description.Adapt<JobDescriptionDTO>();
         }
+
+        public async Task<JobDescriptionEvaluationResultDTO> EvaluateJobDescription(EvaluateJobDescriptionDTO request)
+        {
+            return await _jobEvaluatorService.EvaluateOnlyAsync(request.title, request.content);
+        }
     }
 }

@@ -16,14 +16,9 @@ namespace JobScoreServer.Services.Rules
 
         public int RuleId => 7;
 
-        public Task<bool> EvaluateAsync(string jobDescriptionContent)
+        public Task<bool> EvaluateAsync(string content, string? title = null)
         {
-            
-            return Task.FromResult(true);
-        }
-
-        public Task<bool> EvaluateAsync(string title, string jobDescriptionContent)
-        {
+            // This rule specifically checks the title for seniority level
             if (string.IsNullOrWhiteSpace(title))
             {
                 return Task.FromResult(false);
@@ -31,7 +26,7 @@ namespace JobScoreServer.Services.Rules
 
             var lowerTitle = title.ToLower();
 
-            // checks if title contains any seniority level indicator
+            // Checks if title contains any seniority level indicator
             var hasSeniorityLevel = SeniorityLevels.Any(level =>
                 lowerTitle.Contains(level, StringComparison.OrdinalIgnoreCase));
 

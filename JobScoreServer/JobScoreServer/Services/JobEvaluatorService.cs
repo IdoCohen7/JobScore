@@ -2,6 +2,7 @@
 using JobScoreServer.Services.Interfaces;
 using JobScoreServer.Data;
 using Microsoft.EntityFrameworkCore;
+using JobScoreServer.DTOs;
 
 namespace JobScoreServer.Services
 {
@@ -33,8 +34,8 @@ namespace JobScoreServer.Services
                 var ruleConfig = rulesFromDb.FirstOrDefault(r => r.Id == rule.RuleId);
                 if (ruleConfig == null) continue;
 
-                // pass both title and content
-                var passed = await rule.EvaluateAsync(jobDescription.Title, content);
+                // pass content and title (as optional parameter)
+                var passed = await rule.EvaluateAsync(content, jobDescription.Title);
 
                 if (!passed)
                 {
@@ -58,6 +59,38 @@ namespace JobScoreServer.Services
             }
 
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<JobDescriptionEvaluationResultDTO> EvaluateOnlyAsync(string title, string content)
+        {
+            var rulesFromDb = await _dbContext.Rules.AsNoTracking().ToListAsync();
+
+            decimal totalScore = 100;
+            var violations = new List<ViolationResultDTO>();
+
+            // evaluate each rule
+            foreach (var rule in _rules)
+            {
+                var ruleConfig = rulesFromDb.FirstOrDefault(r => r.Id == rule.RuleId);
+                if (ruleConfig == null) continue;
+
+                // pass content and title (as optional parameter)
+                var passed = await rule.EvaluateAsync(content, title);
+
+                if (!passed)
+                {
+                    totalScore -= ruleConfig.Weight;
+                    violations.Add(new ViolationResultDTO(
+                        ruleId: rule.RuleId,
+                        ruleTitle: ruleConfig.Title,
+                        impact: ruleConfig.Weight
+                    ));
+                }
+            }
+
+            totalScore = Math.Max(0, totalScore);
+
+            return new JobDescriptionEvaluationResultDTO(totalScore, violations);
         }
     }
 }

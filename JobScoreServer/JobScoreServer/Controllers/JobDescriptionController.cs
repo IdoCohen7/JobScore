@@ -48,5 +48,21 @@ namespace JobScoreServer.Controllers
                 return StatusCode(500, new { error = ex.Message });
             }
         }
+
+        // POST api/<JobDescriptionController>/evaluate
+        [HttpPost("evaluate")]
+        public async Task<ActionResult<JobDescriptionEvaluationResultDTO>> Evaluate([FromBody] EvaluateJobDescriptionDTO request)
+        {
+            try
+            {
+                var result = await _jobDescriptionService.EvaluateJobDescription(request);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
     }
 }

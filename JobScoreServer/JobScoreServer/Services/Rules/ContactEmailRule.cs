@@ -6,19 +6,20 @@ namespace JobScoreServer.Services.Rules
     {
         private const string RequiredEmail = "hr@company.com";
 
-        public int RuleId => 9;
+        public int RuleId => 6;
 
-        public Task<bool> EvaluateAsync(string jobDescriptionContent)
+        public Task<bool> EvaluateAsync(string content, string? title = null)
         {
-            if (string.IsNullOrWhiteSpace(jobDescriptionContent))
+            // Check both title and content for the required email
+            var combinedText = $"{title ?? string.Empty} {content}";
+            
+            if (string.IsNullOrWhiteSpace(combinedText))
             {
                 return Task.FromResult(false);
             }
 
-            var containsEmail = jobDescriptionContent.Contains(RequiredEmail, StringComparison.OrdinalIgnoreCase);
+            var containsEmail = combinedText.Contains(RequiredEmail, StringComparison.OrdinalIgnoreCase);
             return Task.FromResult(containsEmail);
         }
-
-        
     }
 }

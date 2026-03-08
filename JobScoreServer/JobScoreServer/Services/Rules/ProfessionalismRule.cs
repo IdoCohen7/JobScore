@@ -1,4 +1,5 @@
 using JobScoreServer.Services.Interfaces;
+using System.Text.RegularExpressions;
 
 namespace JobScoreServer.Services.Rules
 {
@@ -13,28 +14,27 @@ namespace JobScoreServer.Services.Rules
 
         public int RuleId => 2;
 
-        public Task<bool> EvaluateAsync(string jobDescriptionContent)
+        public async Task<bool> EvaluateAsync(string content, string? title = null)
         {
-            // unused
-            return Task.FromResult(true);
-        }
-
-        public async Task<bool> EvaluateAsync(string title, string jobDescriptionContent)
-        {
-            if (string.IsNullOrWhiteSpace(title) && string.IsNullOrWhiteSpace(jobDescriptionContent))
+            // Combine title and content for searching
+            var combinedText = $"{title ?? string.Empty} {content}";
+            
+            // If both are empty, pass the rule
+            if (string.IsNullOrWhiteSpace(combinedText))
             {
                 return true;
             }
 
+            // Get all buzzwords from the database
             var buzzwords = await _buzzwordService.GetAllBuzzowrds();
             
+            // If no buzzwords exist in database, pass the rule
             if (buzzwords == null || !buzzwords.Any())
             {
-                return true; // no buzzwords exist
+                return true;
             }
 
-            var combinedText = $"{title} {jobDescriptionContent}".ToLower();
-            var foundBuzzwords = new HashSet<int>();
+            var foundBuzzwordIds = new HashSet<int>();
 
             foreach (var buzzword in buzzwords)
             {
@@ -43,21 +43,24 @@ namespace JobScoreServer.Services.Rules
                     continue;
                 }
 
-                // check if buzzwords exists in text
-                if (combinedText.Contains(buzzword.Name.ToLower()))
+                // Use regex with word boundaries to match whole words only
+                // \b ensures we match "rockstar" but not "rock" in "rockstar"
+                var pattern = $@"\b{Regex.Escape(buzzword.Name)}\b";
+                
+                if (Regex.IsMatch(combinedText, pattern, RegexOptions.IgnoreCase))
                 {
-                    foundBuzzwords.Add(buzzword.Id);
+                    foundBuzzwordIds.Add(buzzword.Id);
                 }
             }
 
-            // buzzword counter increment
-            foreach (var buzzwordId in foundBuzzwords)
+            // Increment count for each found buzzword
+            foreach (var buzzwordId in foundBuzzwordIds)
             {
                 await _buzzwordService.IncrementBuzzwordCount(buzzwordId);
             }
 
-            // false if no buzzwords were found
-            return foundBuzzwords.Count == 0;
+            // Return true (pass) if NO buzzwords found, false (fail) if ANY buzzwords found
+            return foundBuzzwordIds.Count == 0;
         }
     }
 }

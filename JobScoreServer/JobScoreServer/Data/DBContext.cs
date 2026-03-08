@@ -22,6 +22,7 @@ namespace JobScoreServer.Data
             modelBuilder.ApplyConfiguration(new ViolationConfiguration());
             modelBuilder.ApplyConfiguration(new BuzzwordConfiguration());
 
+
             base.OnModelCreating(modelBuilder);
         }
 

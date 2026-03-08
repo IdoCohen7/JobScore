@@ -66,11 +66,16 @@ builder.Services.AddScoped<IJobDescriptionService, JobDescriptionService>();
 builder.Services.AddScoped<IBuzzwordService, BuzzwordService>();
 builder.Services.AddScoped<IJobEvaluatorService, JobEvaluatorService>();
 
-// Evaluation Rules - Singletons for stateless rules, Scoped for rules with dependencies
+// singletons for stateless rules
 builder.Services.AddSingleton<IJobEvaluationRule, ReadingTimeRule>();
 builder.Services.AddSingleton<IJobEvaluationRule, ContactEmailRule>();
 builder.Services.AddSingleton<IJobEvaluationRule, StandardizationRule>();
 builder.Services.AddSingleton<IJobEvaluationRule, ToneOfVoiceRule>();
+builder.Services.AddSingleton<IJobEvaluationRule, TransparencyRule>();
+builder.Services.AddSingleton<IJobEvaluationRule, AllCapsRule>();
+builder.Services.AddSingleton<IJobEvaluationRule, ReadabilityRule>();
+builder.Services.AddSingleton<IJobEvaluationRule, EngagementRule>();
+builder.Services.AddSingleton<IJobEvaluationRule, InclusivityRule>();
 builder.Services.AddScoped<IJobEvaluationRule, ProfessionalismRule>(); // Scoped due to IBuzzwordService dependency
 
 builder.Services.AddDbContext<DBContext>(options =>

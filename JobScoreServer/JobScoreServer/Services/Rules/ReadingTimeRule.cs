@@ -10,14 +10,17 @@ namespace JobScoreServer.Services.Rules
 
         public int RuleId => 10;
 
-        public Task<bool> EvaluateAsync(string jobDescriptionContent)
+        public Task<bool> EvaluateAsync(string content, string? title = null)
         {
-            if (string.IsNullOrWhiteSpace(jobDescriptionContent))
+            // Combine title and content for total word count
+            var combinedText = $"{title ?? string.Empty} {content}";
+            
+            if (string.IsNullOrWhiteSpace(combinedText))
             {
                 return Task.FromResult(false);
             }
 
-            var wordCount = jobDescriptionContent
+            var wordCount = combinedText
                 .Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
                 .Length;
 
@@ -27,7 +30,5 @@ namespace JobScoreServer.Services.Rules
 
             return Task.FromResult(isValid);
         }
-
-        
     }
 }
