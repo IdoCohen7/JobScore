@@ -1,3 +1,5 @@
 /JobScoreServer/JobScoreServer/obj
 /JobScoreServer/.vs
 /JobScoreServer/JobScoreServer/bin
+/JobScoreServer/EvaluationServiceTests/bin/Debug
+/JobScoreServer/EvaluationServiceTests/obj

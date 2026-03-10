@@ -28,6 +28,9 @@ namespace JobScoreServer.Services
             var jobDescription = await _dbContext.JobDescriptions.FindAsync(jobDescriptionId);
             if (jobDescription == null) return;
 
+            // Validate inputs
+            ValidateInputs(content, jobDescription.Title);
+
             // evaluate each rule
             foreach (var rule in _rules)
             {
@@ -63,6 +66,9 @@ namespace JobScoreServer.Services
 
         public async Task<JobDescriptionEvaluationResultDTO> EvaluateOnlyAsync(string title, string content)
         {
+            // Validate inputs
+            ValidateInputs(content, title);
+
             var rulesFromDb = await _dbContext.Rules.AsNoTracking().ToListAsync();
 
             decimal totalScore = 100;
@@ -91,6 +97,19 @@ namespace JobScoreServer.Services
             totalScore = Math.Max(0, totalScore);
 
             return new JobDescriptionEvaluationResultDTO(totalScore, violations);
+        }
+
+        private static void ValidateInputs(string content, string? title)
+        {
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                throw new ArgumentException("Content cannot be null or empty.", nameof(content));
+            }
+
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                throw new ArgumentException("Title cannot be null or empty.", nameof(title));
+            }
         }
     }
 }
