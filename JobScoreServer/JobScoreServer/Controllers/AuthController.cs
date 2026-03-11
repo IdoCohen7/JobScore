@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using JobScoreServer.DTOs;
+﻿using JobScoreServer.DTOs;
 using JobScoreServer.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace JobScoreServer.Controllers
 {
@@ -53,6 +55,22 @@ namespace JobScoreServer.Controllers
             {
                 return BadRequest(new { error = ex.Message });
             }
+        }
+
+        [HttpGet("me")]
+        [Authorize]
+        public IActionResult GetCurrentUser()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var isAdmin = User.FindFirst("IsAdmin")?.Value == "True";
+
+            return Ok(new
+            {
+                id = userId,
+                email = email,
+                isAdmin = isAdmin
+            });
         }
 
         private void SetAuthCookie(string token)
