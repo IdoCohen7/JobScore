@@ -1,7 +1,6 @@
 ﻿using JobScoreServer.DTOs;
 using JobScoreServer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -30,9 +29,11 @@ namespace JobScoreServer.Controllers
                     return Unauthorized(new { error = "Email or password are incorrect" });
                 }
 
-                SetAuthCookie(token);
-
-                return Ok(new { message = "You've logged in successfully!" });
+                return Ok(new 
+                { 
+                    message = "You've logged in successfully!",
+                    token = token
+                });
             }
             catch (Exception ex)
             {
@@ -47,9 +48,11 @@ namespace JobScoreServer.Controllers
             {
                 var token = await _authService.Register(request);
 
-                SetAuthCookie(token);
-
-                return Ok(new { message = "You've registered successfully!" });
+                return Ok(new 
+                { 
+                    message = "You've registered successfully!",
+                    token = token
+                });
             }
             catch (Exception ex)
             {
@@ -63,27 +66,18 @@ namespace JobScoreServer.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var firstName = User.FindFirst(ClaimTypes.GivenName)?.Value;
+            var lastName = User.FindFirst(ClaimTypes.Surname)?.Value;
             var isAdmin = User.FindFirst("IsAdmin")?.Value == "True";
 
             return Ok(new
             {
                 id = userId,
                 email = email,
+                firstName = firstName,
+                lastName = lastName,
                 isAdmin = isAdmin
             });
-        }
-
-        private void SetAuthCookie(string token)
-        {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddHours(2)
-            };
-
-            Response.Cookies.Append("jwt_token", token, cookieOptions);
         }
     }
 }

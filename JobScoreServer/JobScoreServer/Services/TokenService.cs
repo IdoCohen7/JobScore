@@ -18,9 +18,11 @@ namespace JobScoreServer.Services
 
         public string CreateToken(User user)
         {
-            var claims = new[]
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.GivenName, user.FirstName),
+                new Claim(ClaimTypes.Surname, user.LastName),
                 new Claim("IsAdmin", user.IsAdmin.ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };

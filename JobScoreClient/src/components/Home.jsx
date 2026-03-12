@@ -19,6 +19,7 @@ import {
   ExitToApp,
 } from "@mui/icons-material";
 import authService from "../services/authService";
+import tokenService from "../utils/tokenService";
 
 function Home() {
   const [user, setUser] = useState(null);
@@ -40,14 +41,14 @@ function Home() {
       console.error("Error fetching user data:", err);
       console.error("Error response:", err.response?.data);
       console.error("Error status:", err.response?.status);
-      
-      const errorMessage = 
-        err.response?.data?.error || 
-        err.response?.data?.message || 
-        err.response?.status === 401 
+
+      const errorMessage =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        err.response?.status === 401
           ? "Session expired or invalid. Please log in again."
           : "Failed to load user data. Please try logging in again.";
-      
+
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -55,7 +56,9 @@ function Home() {
   };
 
   const handleLogout = () => {
-    // Add logout logic here
+    // Clear the JWT token from localStorage
+    tokenService.removeToken();
+    console.log("Logged out, token cleared");
     navigate("/login");
   };
 

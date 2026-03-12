@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import authService from "../services/authService";
+import tokenService from "../utils/tokenService";
 import LogoHeader from "./LogoHeader";
 
 function Register() {
@@ -67,10 +68,14 @@ function Register() {
         formData.password,
         formData.confirmPassword,
       );
-      console.log("Registration successful:", response.data);
-      console.log("Response headers:", response.headers);
-      console.log("Cookies:", document.cookie);
-      // Navigate to login after successful registration
+
+      // Store the JWT token in localStorage
+      if (response.data.token) {
+        tokenService.setToken(response.data.token);
+        console.log("Registration successful, token stored");
+      }
+
+      // Navigate to home after successful registration
       navigate("/home");
     } catch (err) {
       console.error("Full registration error:", err.response?.data);

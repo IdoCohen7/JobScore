@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import authService from "../services/authService";
+import tokenService from "../utils/tokenService";
 import LogoHeader from "./LogoHeader";
 
 function Login() {
@@ -31,9 +32,13 @@ function Login() {
 
     try {
       const response = await authService.Login(email, password);
-      console.log("Login successful:", response.data);
-      console.log("Response headers:", response.headers);
-      console.log("Cookies:", document.cookie);
+
+      // Store the JWT token in localStorage
+      if (response.data.token) {
+        tokenService.setToken(response.data.token);
+        console.log("Login successful, token stored");
+      }
+
       // Navigate to home or dashboard after successful login
       navigate("/home");
     } catch (err) {
