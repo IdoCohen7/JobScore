@@ -5,9 +5,14 @@ import {
   Navigate,
 } from "react-router-dom";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
+import Buzzwords from "./components/Buzzwords";
+import Metrics from "./components/Metrics";
+import Rules from "./components/Rules";
 import "./App.css";
 
 const theme = createTheme({
@@ -27,17 +32,22 @@ const theme = createTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/" element={<Navigate to="/home" replace />} />
-        </Routes>
-      </Router>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/buzzwords" element={<Buzzwords />} />
+            <Route path="/metrics" element={<Metrics />} />
+            <Route path="/rules" element={<Rules />} />
+            <Route path="/" element={<Navigate to="/home" replace />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </Provider>
   );
 }
 

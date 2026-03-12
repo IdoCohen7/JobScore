@@ -1,19 +1,8 @@
 import { Box } from "@mui/material";
+import "./components.css";
 
 function LogoHeader() {
-  return (
-    <Box
-      component="img"
-      src="/logo.png"
-      alt="Logo"
-      sx={{
-        width: { xs: 100, sm: 120, md: 150 },
-        height: { xs: 100, sm: 120, md: 150 },
-        mb: { xs: 2, sm: 3 },
-        objectFit: "contain",
-      }}
-    />
-  );
+  return <Box component="img" src="/logo.png" alt="Logo" className="logo" />;
 }
 
 export default LogoHeader;

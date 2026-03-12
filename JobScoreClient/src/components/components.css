@@ -1,0 +1,441 @@
+/* ===========================
+   Global Styles & Variables
+   =========================== */
+
+:root {
+  --primary-color: #2563eb;
+  --primary-dark: #1e40af;
+  --primary-light: #3b82f6;
+  --secondary-color: #10b981;
+  --error-color: #ef4444;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --bg-primary: #f9fafb;
+  --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* ===========================
+   Auth Components (Login/Register)
+   =========================== */
+
+.auth-container {
+  margin-top: 4rem;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1rem;
+  min-height: 100vh;
+}
+
+.form-paper {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-xl) !important;
+  background: white;
+  transition: var(--transition);
+}
+
+.form-paper:hover {
+  box-shadow: 0 25px 30px rgba(0, 0, 0, 0.2) !important;
+  transform: translateY(-2px);
+}
+
+.form-title {
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.error-alert {
+  width: 100%;
+  margin-bottom: 1rem;
+  border-radius: var(--radius-sm) !important;
+  font-weight: 500;
+}
+
+.form-container {
+  width: 100%;
+}
+
+.field-errors {
+  width: 100%;
+  margin-bottom: 1rem;
+  border-radius: var(--radius-sm) !important;
+}
+
+.submit-button {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius-sm) !important;
+  padding: 12px 24px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  box-shadow: var(--shadow-md) !important;
+  transition: var(--transition) !important;
+  background: var(--bg-gradient) !important;
+  border: none !important;
+}
+
+.submit-button:hover:not(:disabled) {
+  box-shadow: var(--shadow-lg) !important;
+  transform: translateY(-2px);
+}
+
+.submit-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.signup-link,
+.login-link {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.signup-link a,
+.login-link a {
+  text-decoration: none;
+  color: var(--primary-color);
+  font-weight: 500;
+  transition: var(--transition);
+  border-bottom: 2px solid transparent;
+}
+
+.signup-link a:hover,
+.login-link a:hover {
+  color: var(--primary-dark);
+  border-bottom-color: var(--primary-color);
+}
+
+/* ===========================
+   Logo Header
+   =========================== */
+
+.logo {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 2rem;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  transition: var(--transition);
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.15));
+}
+
+/* ===========================
+   Navigation Bar
+   =========================== */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.navbar-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: var(--transition);
+}
+
+.navbar-logo:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+.navbar-logo img {
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.logout-button {
+  margin-left: 1rem;
+  border-radius: var(--radius-sm) !important;
+  padding: 8px 20px !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+  transition: var(--transition) !important;
+}
+
+.logout-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* ===========================
+   Home Page
+   =========================== */
+
+.job-title-input {
+  margin-bottom: 2rem;
+}
+
+.job-title-input .MuiOutlinedInput-root,
+.job-description-input .MuiOutlinedInput-root {
+  border-radius: var(--radius-md) !important;
+  transition: var(--transition);
+  background: white;
+}
+
+.job-title-input .MuiOutlinedInput-root:hover,
+.job-description-input .MuiOutlinedInput-root:hover {
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.job-title-input .MuiOutlinedInput-root.Mui-focused,
+.job-description-input .MuiOutlinedInput-root.Mui-focused {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.job-description-input {
+  margin-bottom: 2rem;
+}
+
+.job-description-input textarea {
+  line-height: 1.8 !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.button-group button {
+  border-radius: var(--radius-sm) !important;
+  padding: 10px 28px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  font-size: 0.95rem !important;
+  transition: var(--transition) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.button-group button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md) !important;
+}
+
+.button-group button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.button-group .MuiButton-contained {
+  background: var(--bg-gradient) !important;
+  border: none !important;
+}
+
+.loading-container {
+  margin-top: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}
+
+.error-container {
+  margin-top: 4rem;
+  padding: 2rem;
+}
+
+/* ===========================
+   Page Container (Shared)
+   =========================== */
+
+.page-container {
+  margin-top: 2.5rem;
+  margin-bottom: 3rem;
+  padding: 0 1rem;
+}
+
+.content-paper {
+  padding: 2.5rem;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-lg) !important;
+  background: white;
+  transition: var(--transition);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.content-paper:hover {
+  box-shadow: var(--shadow-xl) !important;
+}
+
+.page-title {
+  margin-bottom: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.page-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: var(--bg-gradient);
+  border-radius: 2px;
+}
+
+/* ===========================
+   TextField Improvements
+   =========================== */
+
+.MuiTextField-root .MuiInputLabel-root {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.MuiTextField-root .MuiInputLabel-root.Mui-focused {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* ===========================
+   Mobile Responsive Styles
+   =========================== */
+
+@media (max-width: 960px) {
+  .logo {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media (max-width: 900px) {
+  .navbar-logo {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .auth-container {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .form-paper {
+    padding: 2rem;
+    border-radius: var(--radius-md) !important;
+  }
+
+  .form-title {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .submit-button {
+    margin-top: 1rem;
+  }
+
+  .logo {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1rem;
+  }
+
+  .page-container {
+    margin-top: 1.5rem;
+  }
+
+  .content-paper {
+    padding: 1.5rem;
+    border-radius: var(--radius-md) !important;
+  }
+
+  .page-title {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  .job-title-input,
+  .job-description-input {
+    margin-bottom: 1.5rem;
+  }
+
+  .button-group {
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+  }
+
+  .button-group button {
+    width: 100%;
+  }
+
+  .navbar {
+    padding: 0.5rem 1rem !important;
+  }
+
+  .logout-button {
+    padding: 6px 16px !important;
+    font-size: 0.875rem !important;
+  }
+}
+
+/* ===========================
+   Animations
+   =========================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-paper,
+.content-paper {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* ===========================
+   Utility Classes
+   =========================== */
+
+.text-gradient {
+  background: var(--bg-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

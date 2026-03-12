@@ -13,9 +13,12 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
+import { setUser } from "../store/slices/userSlice";
 import authService from "../services/authService";
 import tokenService from "../utils/tokenService";
 import LogoHeader from "./LogoHeader";
+import "./components.css";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -24,6 +27,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +42,11 @@ function Login() {
         tokenService.setToken(response.data.token);
         console.log("Login successful, token stored");
       }
+
+      // Fetch user data and store in Redux
+      const userResponse = await authService.Me();
+      dispatch(setUser(userResponse.data));
+      console.log("User data stored in Redux:", userResponse.data);
 
       // Navigate to home or dashboard after successful login
       navigate("/home");
@@ -55,40 +64,26 @@ function Login() {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          marginTop: { xs: 4, sm: 8 },
-          marginBottom: { xs: 4, sm: 0 },
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          px: { xs: 2, sm: 0 },
-        }}
-      >
+      <Box className="auth-container">
         <LogoHeader />
 
         {/* Form */}
-        <Paper
-          elevation={3}
-          sx={{
-            p: { xs: 3, sm: 4 },
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            width: "100%",
-          }}
-        >
-          <Typography component="h1" variant="h5" sx={{ mb: { xs: 2, sm: 3 } }}>
+        <Paper elevation={3} className="form-paper">
+          <Typography component="h1" variant="h5" className="form-title">
             Sign In
           </Typography>
 
           {error && (
-            <Alert severity="error" sx={{ width: "100%", mb: 2 }}>
+            <Alert severity="error" className="error-alert">
               {error}
             </Alert>
           )}
 
-          <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            className="form-container"
+          >
             <TextField
               margin="normal"
               required
@@ -130,12 +125,12 @@ function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: { xs: 2, sm: 3 }, mb: 2 }}
+              className="submit-button"
               disabled={loading}
             >
               {loading ? <CircularProgress size={24} /> : "Sign In"}
             </Button>
-            <Box sx={{ textAlign: "center" }}>
+            <Box className="signup-link">
               <Link
                 to="/register"
                 style={{ textDecoration: "none", color: "#1976d2" }}
