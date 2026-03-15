@@ -104,12 +104,20 @@ namespace JobScoreServer.Services
                         Year = j.CreatedAt.Year,
                         Week = DateTimeHelper.GetWeekOfYear(j.CreatedAt)
                     })
-                    .Select(g => new TrendlineDataPoint(
-                        $"Week {g.Key.Week}, {g.Key.Year}",
-                        g.Average(x => x.Score),
-                        g.Count()
+                    .Select(g => new
+                    {
+                        g.Key.Year,
+                        g.Key.Week,
+                        AverageScore = g.Average(x => x.Score),
+                        Count = g.Count()
+                    })
+                    .OrderBy(d => d.Year)
+                    .ThenBy(d => d.Week)
+                    .Select(d => new TrendlineDataPoint(
+                        $"Week {d.Week}, {d.Year}",
+                        d.AverageScore,
+                        d.Count
                     ))
-                    .OrderBy(d => d.label)
                     .ToList();
 
                 return weeklyData;
@@ -140,12 +148,20 @@ namespace JobScoreServer.Services
                         Year = j.CreatedAt.Year,
                         Month = j.CreatedAt.Month
                     })
-                    .Select(g => new TrendlineDataPoint(
-                        $"{DateTimeHelper.GetMonthName(g.Key.Month)} {g.Key.Year}",
-                        g.Average(x => x.Score),
-                        g.Count()
+                    .Select(g => new
+                    {
+                        g.Key.Year,
+                        g.Key.Month,
+                        AverageScore = g.Average(x => x.Score),
+                        Count = g.Count()
+                    })
+                    .OrderBy(d => d.Year)
+                    .ThenBy(d => d.Month)
+                    .Select(d => new TrendlineDataPoint(
+                        $"{DateTimeHelper.GetMonthName(d.Month)} {d.Year}",
+                        d.AverageScore,
+                        d.Count
                     ))
-                    .OrderBy(d => d.label)
                     .ToList();
 
                 return monthlyData;

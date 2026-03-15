@@ -8,7 +8,7 @@ namespace JobScoreServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy = "AdminOnly")] // Admin-only access for all buzzword operations
+    [Authorize(Policy = "AdminOnly")] 
     public class BuzzwordController : ControllerBase
     {
         private readonly IBuzzwordService _buzzwordService;
@@ -60,27 +60,6 @@ namespace JobScoreServer.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new { error = ex.Message });
-            }
-        }
-
-        // PUT: api/buzzword/{id}/increment
-        [HttpPut("{id}/increment")]
-        public async Task<IActionResult> IncrementCount(int id)
-        {
-            try
-            {
-                var result = await _buzzwordService.IncrementBuzzwordCount(id);
-
-                if (result)
-                {
-                    return Ok(new { message = "Buzzword count incremented successfully" });
-                }
-
-                return StatusCode(500, new { error = "Failed to increment buzzword count" });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { error = ex.Message });
             }
         }
 

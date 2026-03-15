@@ -1,6 +1,15 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Box, Tabs, Tab, AppBar, Toolbar, Button } from "@mui/material";
+import {
+  Box,
+  Tabs,
+  Tab,
+  AppBar,
+  Toolbar,
+  Button,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { ExitToApp } from "@mui/icons-material";
 import { clearUser } from "../store/slices/userSlice";
 import tokenService from "../utils/tokenService";
@@ -12,9 +21,16 @@ function NavBar({ currentTab }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Determine current tab from URL if not provided
   const activeTab = currentTab || location.pathname.replace("/", "") || "home";
+  const availableTabs = [
+    "home",
+    ...(isAdmin ? ["buzzwords", "metrics", "rules"] : []),
+  ];
+  const selectedTab = availableTabs.includes(activeTab) ? activeTab : false;
 
   const handleChange = (event, newValue) => {
     navigate(`/${newValue}`);
@@ -31,12 +47,14 @@ function NavBar({ currentTab }) {
     <AppBar position="static" color="default" elevation={1}>
       <Toolbar className="navbar">
         <Tabs
-          value={activeTab}
+          className="navbar-tabs"
+          value={selectedTab}
           onChange={handleChange}
           indicatorColor="primary"
           textColor="primary"
           variant="scrollable"
           scrollButtons="auto"
+          allowScrollButtonsMobile
         >
           <Tab label="Home" value="home" />
           {isAdmin && <Tab label="Buzzwords" value="buzzwords" />}
@@ -55,7 +73,7 @@ function NavBar({ currentTab }) {
           onClick={handleLogout}
           className="logout-button"
         >
-          Logout
+          {isSmallScreen ? "Out" : "Logout"}
         </Button>
       </Toolbar>
     </AppBar>

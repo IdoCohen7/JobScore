@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { setUser, clearUser } from "../store/slices/userSlice";
+import { useDispatch } from "react-redux";
+import { setUser } from "../store/slices/userSlice";
 import {
   Box,
   Container,
@@ -16,8 +16,8 @@ import {
 
 import authService from "../services/authService";
 import jobDescriptionService from "../services/jobDescriptionSerivce";
-import tokenService from "../utils/tokenService";
 import NavBar from "./NavBar";
+import EvaluationResult from "./EvaluationResult";
 import "./components.css";
 
 function Home() {
@@ -27,15 +27,14 @@ function Home() {
   const [jobDescription, setJobDescription] = useState("");
   const [evaluating, setEvaluating] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [evaluationResult, setEvaluationResult] = useState(null);
+  const [evaluateError, setEvaluateError] = useState("");
+  const [submitMessage, setSubmitMessage] = useState("");
+  const [submitError, setSubmitError] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
-
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     try {
       console.log("Fetching user data...");
       const response = await authService.Me();
@@ -57,31 +56,38 @@ function Home() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [dispatch]);
 
-  const handleLogout = () => {
-    // Clear the JWT token from localStorage
-    tokenService.removeToken();
-    // Clear user from Redux
-    dispatch(clearUser());
-    console.log("Logged out, token and user data cleared");
-    navigate("/login");
-  };
+  useEffect(() => {
+    fetchUserData();
+  }, [fetchUserData]);
 
   const handleEvaluate = async () => {
     setEvaluating(true);
+    setEvaluateError("");
+    setSubmitMessage("");
     try {
       console.log("Evaluating job description:", { jobTitle, jobDescription });
       const response = await jobDescriptionService.Evaluate(
         jobTitle,
         jobDescription,
       );
-      console.log("Evaluation response:", response.data);
-      console.log("Score:", response.data.score);
-      console.log("Violations:", response.data.violations);
+
+      setEvaluationResult({
+        score: Number(response.data?.score ?? 0),
+        violations: Array.isArray(response.data?.violations)
+          ? response.data.violations
+          : [],
+      });
     } catch (err) {
       console.error("Evaluation error:", err);
       console.error("Error response:", err.response?.data);
+      setEvaluationResult(null);
+      setEvaluateError(
+        err.response?.data?.error ||
+          err.response?.data?.message ||
+          "Could not evaluate this job description. Please try again.",
+      );
     } finally {
       setEvaluating(false);
     }
@@ -89,20 +95,25 @@ function Home() {
 
   const handleSubmit = async () => {
     setSubmitting(true);
+    setSubmitError("");
+    setSubmitMessage("");
     try {
       console.log("Submitting job description:", { jobTitle, jobDescription });
-      const response = await jobDescriptionService.Create(
-        jobTitle,
-        jobDescription,
-      );
-      console.log("Submit response:", response.data);
+      await jobDescriptionService.Create(jobTitle, jobDescription);
+
       // Clear form after successful submission
       setJobTitle("");
       setJobDescription("");
-      // TODO: Show success message or redirect
+      setEvaluationResult(null);
+      setSubmitMessage("Success! Job description submitted.");
     } catch (err) {
       console.error("Submit error:", err);
       console.error("Error response:", err.response?.data);
+      setSubmitError(
+        err.response?.data?.error ||
+          err.response?.data?.message ||
+          "Submit failed. Please check the data and try again.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -138,63 +149,101 @@ function Home() {
       <NavBar />
       <Container component="main" maxWidth="lg">
         <Box className="page-container">
-          <Paper elevation={3} className="content-paper">
-            <Typography variant="h5" gutterBottom className="page-title">
-              Job Description Evaluator
-            </Typography>
+          <Box
+            className={`home-layout ${
+              evaluationResult
+                ? "home-layout-with-panel"
+                : "home-layout-centered"
+            }`}
+          >
+            <Paper elevation={3} className="content-paper home-main-card">
+              <Typography variant="h5" gutterBottom className="page-title">
+                Job Description Evaluator
+              </Typography>
 
-            <TextField
-              fullWidth
-              label="Job Title"
-              placeholder="Enter job title..."
-              value={jobTitle}
-              onChange={(e) => setJobTitle(e.target.value)}
-              className="job-title-input"
-              variant="outlined"
-            />
-
-            <TextField
-              multiline
-              rows={12}
-              fullWidth
-              label="Job Description"
-              placeholder="Paste your job description here..."
-              value={jobDescription}
-              onChange={(e) => setJobDescription(e.target.value)}
-              className="job-description-input"
-              variant="outlined"
-            />
-
-            <Stack
-              direction="row"
-              spacing={2}
-              justifyContent="flex-end"
-              className="button-group"
-            >
-              <Button
+              <TextField
+                style={{ marginTop: "7px" }}
+                fullWidth
+                label="Job Title"
+                placeholder="Enter job title..."
+                value={jobTitle}
+                onChange={(e) => {
+                  setJobTitle(e.target.value);
+                  setSubmitMessage("");
+                  setSubmitError("");
+                }}
+                className="job-title-input"
                 variant="outlined"
-                color="primary"
-                onClick={handleEvaluate}
-                disabled={
-                  !jobDescription.trim() || !jobTitle.trim() || evaluating
-                }
-                size="large"
+              />
+
+              <TextField
+                style={{ marginTop: "10px" }}
+                multiline
+                rows={12}
+                fullWidth
+                label="Job Description"
+                placeholder="Paste your job description here..."
+                value={jobDescription}
+                onChange={(e) => {
+                  setJobDescription(e.target.value);
+                  setSubmitMessage("");
+                  setSubmitError("");
+                }}
+                className="job-description-input"
+                variant="outlined"
+              />
+
+              {evaluateError && (
+                <Alert severity="error" className="home-alert">
+                  {evaluateError}
+                </Alert>
+              )}
+
+              {submitError && (
+                <Alert severity="error" className="home-alert">
+                  {submitError}
+                </Alert>
+              )}
+
+              {submitMessage && (
+                <Alert severity="success" className="home-alert">
+                  {submitMessage}
+                </Alert>
+              )}
+
+              <Stack
+                direction="row"
+                spacing={2}
+                justifyContent="flex-end"
+                className="button-group"
               >
-                {evaluating ? <CircularProgress size={24} /> : "Evaluate"}
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSubmit}
-                disabled={
-                  !jobDescription.trim() || !jobTitle.trim() || submitting
-                }
-                size="large"
-              >
-                {submitting ? <CircularProgress size={24} /> : "Submit"}
-              </Button>
-            </Stack>
-          </Paper>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={handleEvaluate}
+                  disabled={
+                    !jobDescription.trim() || !jobTitle.trim() || evaluating
+                  }
+                  size="large"
+                >
+                  {evaluating ? <CircularProgress size={24} /> : "Evaluate"}
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSubmit}
+                  disabled={
+                    !jobDescription.trim() || !jobTitle.trim() || submitting
+                  }
+                  size="large"
+                >
+                  {submitting ? <CircularProgress size={24} /> : "Submit"}
+                </Button>
+              </Stack>
+            </Paper>
+
+            <EvaluationResult result={evaluationResult} />
+          </Box>
         </Box>
       </Container>
     </Box>

@@ -13,6 +13,7 @@ import Home from "./components/Home";
 import Buzzwords from "./components/Buzzwords";
 import Metrics from "./components/Metrics";
 import Rules from "./components/Rules";
+import tokenService from "./utils/tokenService";
 import "./App.css";
 
 const theme = createTheme({
@@ -30,7 +31,23 @@ const theme = createTheme({
   },
 });
 
+const getAuthState = () => {
+  const token = tokenService.getToken();
+  if (!token || tokenService.isTokenExpired(token)) {
+    tokenService.removeToken();
+    return { isAuthenticated: false, isAdmin: false };
+  }
+
+  const payload = tokenService.decodeToken(token);
+  const isAdminClaim = payload?.IsAdmin;
+  const isAdmin = isAdminClaim === true || isAdminClaim === "True";
+
+  return { isAuthenticated: true, isAdmin };
+};
+
 function App() {
+  const { isAuthenticated, isAdmin } = getAuthState();
+
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
@@ -39,11 +56,56 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/buzzwords" element={<Buzzwords />} />
-            <Route path="/metrics" element={<Metrics />} />
-            <Route path="/rules" element={<Rules />} />
+            <Route
+              path="/home"
+              element={
+                isAuthenticated ? <Home /> : <Navigate to="/login" replace />
+              }
+            />
+            <Route
+              path="/buzzwords"
+              element={
+                isAuthenticated ? (
+                  isAdmin ? (
+                    <Buzzwords />
+                  ) : (
+                    <Navigate to="/home" replace />
+                  )
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+            <Route
+              path="/metrics"
+              element={
+                isAuthenticated ? (
+                  isAdmin ? (
+                    <Metrics />
+                  ) : (
+                    <Navigate to="/home" replace />
+                  )
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+            <Route
+              path="/rules"
+              element={
+                isAuthenticated ? (
+                  isAdmin ? (
+                    <Rules />
+                  ) : (
+                    <Navigate to="/home" replace />
+                  )
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
             <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="*" element={<Navigate to="/home" replace />} />
           </Routes>
         </Router>
       </ThemeProvider>
