@@ -3,6 +3,7 @@ import {
   Routes,
   Route,
   Navigate,
+  Outlet,
 } from "react-router-dom";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import { Provider } from "react-redux";
@@ -13,8 +14,8 @@ import Home from "./components/Home";
 import Buzzwords from "./components/Buzzwords";
 import Metrics from "./components/Metrics";
 import Rules from "./components/Rules";
+import NavBar from "./components/NavBar";
 import tokenService from "./utils/tokenService";
-import "./App.css";
 
 const theme = createTheme({
   palette: {
@@ -45,9 +46,41 @@ const getAuthState = () => {
   return { isAuthenticated: true, isAdmin };
 };
 
-function App() {
+function ProtectedLayout() {
+  const { isAuthenticated } = getAuthState();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return (
+    <>
+      <NavBar />
+      <Outlet />
+    </>
+  );
+}
+
+function AdminLayout() {
   const { isAuthenticated, isAdmin } = getAuthState();
 
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!isAdmin) {
+    return <Navigate to="/home" replace />;
+  }
+
+  return (
+    <>
+      <NavBar />
+      <Outlet />
+    </>
+  );
+}
+
+function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
@@ -56,54 +89,17 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route
-              path="/home"
-              element={
-                isAuthenticated ? <Home /> : <Navigate to="/login" replace />
-              }
-            />
-            <Route
-              path="/buzzwords"
-              element={
-                isAuthenticated ? (
-                  isAdmin ? (
-                    <Buzzwords />
-                  ) : (
-                    <Navigate to="/home" replace />
-                  )
-                ) : (
-                  <Navigate to="/login" replace />
-                )
-              }
-            />
-            <Route
-              path="/metrics"
-              element={
-                isAuthenticated ? (
-                  isAdmin ? (
-                    <Metrics />
-                  ) : (
-                    <Navigate to="/home" replace />
-                  )
-                ) : (
-                  <Navigate to="/login" replace />
-                )
-              }
-            />
-            <Route
-              path="/rules"
-              element={
-                isAuthenticated ? (
-                  isAdmin ? (
-                    <Rules />
-                  ) : (
-                    <Navigate to="/home" replace />
-                  )
-                ) : (
-                  <Navigate to="/login" replace />
-                )
-              }
-            />
+
+            <Route element={<ProtectedLayout />}>
+              <Route path="/home" element={<Home />} />
+            </Route>
+
+            <Route element={<AdminLayout />}>
+              <Route path="/buzzwords" element={<Buzzwords />} />
+              <Route path="/metrics" element={<Metrics />} />
+              <Route path="/rules" element={<Rules />} />
+            </Route>
+
             <Route path="/" element={<Navigate to="/home" replace />} />
             <Route path="*" element={<Navigate to="/home" replace />} />
           </Routes>

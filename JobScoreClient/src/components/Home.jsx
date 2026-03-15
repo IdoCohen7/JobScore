@@ -16,9 +16,7 @@ import {
 
 import authService from "../services/authService";
 import jobDescriptionService from "../services/jobDescriptionSerivce";
-import NavBar from "./NavBar";
 import EvaluationResult from "./EvaluationResult";
-import "./components.css";
 
 function Home() {
   const [loading, setLoading] = useState(true);
@@ -146,7 +144,6 @@ function Home() {
 
   return (
     <Box>
-      <NavBar />
       <Container component="main" maxWidth="lg">
         <Box className="page-container">
           <Box

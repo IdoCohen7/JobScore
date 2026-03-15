@@ -15,9 +15,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import NavBar from "./NavBar";
 import ruleService from "../services/ruleService";
-import "./components.css";
 
 function Rules() {
   const [rules, setRules] = useState([]);
@@ -96,7 +94,6 @@ function Rules() {
 
   return (
     <Box>
-      <NavBar />
       <Container component="main" maxWidth="lg">
         <Box className="page-container">
           <Paper elevation={3} className="content-paper">

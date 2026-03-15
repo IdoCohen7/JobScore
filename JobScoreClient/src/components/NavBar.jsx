@@ -13,7 +13,6 @@ import {
 import { ExitToApp } from "@mui/icons-material";
 import { clearUser } from "../store/slices/userSlice";
 import tokenService from "../utils/tokenService";
-import "./components.css";
 
 function NavBar({ currentTab }) {
   const user = useSelector((state) => state.user.user);

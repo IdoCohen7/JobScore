@@ -17,9 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import NavBar from "./NavBar";
 import buzzwordService from "../services/buzzwordService";
-import "./components.css";
 
 function Buzzwords() {
   const [buzzwords, setBuzzwords] = useState([]);
@@ -93,7 +91,6 @@ function Buzzwords() {
 
   return (
     <Box>
-      <NavBar />
       <Container component="main" maxWidth="lg">
         <Box className="page-container">
           <Paper elevation={3} className="content-paper">

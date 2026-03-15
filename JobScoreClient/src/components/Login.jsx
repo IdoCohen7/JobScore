@@ -18,7 +18,6 @@ import { setUser } from "../store/slices/userSlice";
 import authService from "../services/authService";
 import tokenService from "../utils/tokenService";
 import LogoHeader from "./LogoHeader";
-import "./components.css";
 
 function Login() {
   const [email, setEmail] = useState("");

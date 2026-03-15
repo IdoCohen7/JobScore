@@ -16,9 +16,7 @@ import {
 } from "@mui/material";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { LineChart } from "@mui/x-charts/LineChart";
-import NavBar from "./NavBar";
 import metricService from "../services/metricService";
-import "./components.css";
 
 function Metrics() {
   const [averageScore, setAverageScore] = useState(null);
@@ -89,7 +87,6 @@ function Metrics() {
 
   return (
     <Box>
-      <NavBar />
       <Container component="main" maxWidth="lg">
         <Box className="page-container">
           <Paper elevation={3} className="content-paper">

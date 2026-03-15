@@ -21,6 +21,9 @@ namespace JobScoreServer.Data
             modelBuilder.ApplyConfiguration(new RuleConfiguration());
             modelBuilder.ApplyConfiguration(new ViolationConfiguration());
             modelBuilder.ApplyConfiguration(new BuzzwordConfiguration());
+            modelBuilder.ApplyConfiguration(new ChatroomConfiguration());
+            modelBuilder.ApplyConfiguration(new ChatroomUserConfiguration());
+
 
 
             base.OnModelCreating(modelBuilder);

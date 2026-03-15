@@ -9,6 +9,7 @@
         public string PasswordHash  { get; set; }
         public bool IsAdmin { get; set; } = false;
         public List<JobDescription> JobDescriptions { get; set; }
+        public List<ChatroomUser> ChatroomUsers { get; set; }
 
     }
 }
