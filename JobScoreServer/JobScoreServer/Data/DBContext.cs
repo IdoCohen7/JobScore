@@ -13,6 +13,12 @@ namespace JobScoreServer.Data
 
         public DbSet<Buzzword> Buzzwords { get; set; }
 
+        public DbSet<Chatroom> Chatrooms { get; set; }
+
+        public DbSet<ChatroomUser> ChatroomUsers { get; set; }
+        public DbSet<ChatroomMessage> ChatroomMessages { get; set; }
+
+
         public DBContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,8 +29,7 @@ namespace JobScoreServer.Data
             modelBuilder.ApplyConfiguration(new BuzzwordConfiguration());
             modelBuilder.ApplyConfiguration(new ChatroomConfiguration());
             modelBuilder.ApplyConfiguration(new ChatroomUserConfiguration());
-
-
+            modelBuilder.ApplyConfiguration(new ChatroomMessageConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

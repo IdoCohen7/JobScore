@@ -6,6 +6,7 @@
         public string Title { get; set; }
         public DateTime CreatedAt {  get; set; } = DateTime.Now;
         public List<ChatroomUser> ChatroomUsers { get; set; } = [];
+        public List<ChatroomMessage> ChatroomMessages { get; set; } = [];
 
     }
 }

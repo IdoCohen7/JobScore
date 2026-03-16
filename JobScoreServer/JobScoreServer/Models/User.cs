@@ -10,6 +10,7 @@
         public bool IsAdmin { get; set; } = false;
         public List<JobDescription> JobDescriptions { get; set; }
         public List<ChatroomUser> ChatroomUsers { get; set; }
+        public List<ChatroomMessage> ChatroomMessages { get; set; } 
 
     }
 }

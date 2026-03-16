@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using JobScoreServer.Data;
+using JobScoreServer.Hubs;
 using JobScoreServer.Services;
 using JobScoreServer.Services.Interfaces;
 using JobScoreServer.Services.Rules;
@@ -116,8 +117,13 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddSignalR();
+
 
 var app = builder.Build();
+
+app.MapHub<ChatHub>("/chathub");
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
