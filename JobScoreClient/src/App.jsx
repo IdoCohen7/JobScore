@@ -11,6 +11,7 @@ import { store } from "./store/store";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
+import Chat from "./components/Chat";
 import Buzzwords from "./components/Buzzwords";
 import Metrics from "./components/Metrics";
 import Rules from "./components/Rules";
@@ -92,6 +93,7 @@ function App() {
 
             <Route element={<ProtectedLayout />}>
               <Route path="/home" element={<Home />} />
+              <Route path="/chat" element={<Chat />} />
             </Route>
 
             <Route element={<AdminLayout />}>

@@ -60,7 +60,23 @@ namespace JobScoreServer.Services
                 _dbcontext.ChatroomMessages.Add(newMessage);
                 await _dbcontext.SaveChangesAsync();
 
-                return await _dbcontext.ChatroomMessages.AsNoTracking().Include(cm => cm.User).ProjectToType<ChatMessage>().FirstOrDefaultAsync(cm => cm.id == newMessage.Id);
+                // Load the saved entity including the user, then map to DTO on the client side
+                var messageEntity = await _dbcontext.ChatroomMessages
+                    .AsNoTracking()
+                    .Include(cm => cm.User)
+                    .FirstOrDefaultAsync(cm => cm.Id == newMessage.Id);
+
+                if (messageEntity == null)
+                    return null;
+
+                // Manually construct DTO to ensure user names are included
+                return new ChatMessage(
+                    messageEntity.Id,
+                    messageEntity.User?.FirstName,
+                    messageEntity.User?.LastName,
+                    messageEntity.Content,
+                    messageEntity.CreatedAt
+                );
             }
             catch (Exception ex)
             {
@@ -193,6 +209,51 @@ namespace JobScoreServer.Services
                 }
 
                 await _dbcontext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        // Returns all chatrooms the given user is a member of
+        public async Task<List<Chatroom>> GetChatrooms(int userId)
+        {
+            try
+            {
+                var chatrooms = await _dbcontext.Chatrooms
+                    .AsNoTracking()
+                    .Where(c => c.ChatroomUsers.Any(cu => cu.UserId == userId))
+                    .ToListAsync();
+
+                return chatrooms;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        // Deletes a chatroom if the acting user is a member and an admin
+        public async Task<bool> DeleteChatroom(int actingUserId, int chatroomId)
+        {
+            try
+            {
+                var chatroom = await _dbcontext.Chatrooms
+                    .Include(c => c.ChatroomUsers)
+                    .FirstOrDefaultAsync(c => c.Id == chatroomId);
+
+                if (chatroom == null)
+                    return true; // nothing to delete
+
+                var acting = chatroom.ChatroomUsers.FirstOrDefault(cu => cu.UserId == actingUserId);
+                if (acting == null || !acting.IsAdmin)
+                    throw new UnauthorizedAccessException("Acting user is not an admin in the chatroom.");
+
+                _dbcontext.Chatrooms.Remove(chatroom);
+                await _dbcontext.SaveChangesAsync();
+
                 return true;
             }
             catch (Exception)

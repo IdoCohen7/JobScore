@@ -56,9 +56,6 @@ function EvaluationResult({ result }) {
                   <Typography variant="subtitle1" className="violation-title">
                     {violation.ruleTitle}
                   </Typography>
-                  <Typography variant="caption" className="violation-meta">
-                    Rule ID: {violation.ruleId}
-                  </Typography>
                 </Box>
                 <Chip
                   size="small"

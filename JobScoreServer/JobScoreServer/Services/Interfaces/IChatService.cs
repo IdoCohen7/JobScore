@@ -1,4 +1,5 @@
 ﻿using JobScoreServer.DTOs;
+using JobScoreServer.Models;
 
 namespace JobScoreServer.Services.Interfaces
 {
@@ -12,5 +13,7 @@ namespace JobScoreServer.Services.Interfaces
         Task<bool> AddUserToChatroom(int actingUserId, int targetUserId, int chatroomId);
         Task<bool> RemoveUserFromChatroom(int actingUserId, int targetUserId, int chatroomId);
         Task<bool> SetUserAsAdmin(int actingUserId, int targetUserId, int chatroomId);
+        Task<List<Chatroom>> GetChatrooms(int userId);
+        Task<bool> DeleteChatroom(int actingUserId, int chatroomId);
     }
 }

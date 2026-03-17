@@ -27,6 +27,7 @@ function NavBar({ currentTab }) {
   const activeTab = currentTab || location.pathname.replace("/", "") || "home";
   const availableTabs = [
     "home",
+    "chat",
     ...(isAdmin ? ["buzzwords", "metrics", "rules"] : []),
   ];
   const selectedTab = availableTabs.includes(activeTab) ? activeTab : false;
@@ -56,6 +57,7 @@ function NavBar({ currentTab }) {
           allowScrollButtonsMobile
         >
           <Tab label="Home" value="home" />
+          <Tab label="Chat" value="chat" />
           {isAdmin && <Tab label="Buzzwords" value="buzzwords" />}
           {isAdmin && <Tab label="Metrics" value="metrics" />}
           {isAdmin && <Tab label="Rules" value="rules" />}
