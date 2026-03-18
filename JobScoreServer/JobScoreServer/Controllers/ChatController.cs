@@ -31,7 +31,9 @@ namespace JobScoreServer.Controllers
             return userId;
         }
 
+
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> Create([FromBody] string title)
         {
             try

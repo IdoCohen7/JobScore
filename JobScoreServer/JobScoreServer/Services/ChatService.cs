@@ -5,6 +5,7 @@ using JobScoreServer.Services.Interfaces;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
+using System.Linq;
 
 namespace JobScoreServer.Services
 {
@@ -93,7 +94,7 @@ namespace JobScoreServer.Services
                     .OrderBy(cm => cm.CreatedAt)
                     .ToListAsync();
 
-                return messages.Adapt<List<ChatMessage>>();
+                return messages.Select(m => new ChatMessage(m.Id, m.User?.FirstName, m.User?.LastName, m.Content, m.CreatedAt)).ToList();
             }
 
             catch (Exception ex)

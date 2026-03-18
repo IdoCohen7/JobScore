@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../store/slices/userSlice";
 import {
   Box,
@@ -31,8 +31,14 @@ function Home() {
   const [submitError, setSubmitError] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user);
 
   const fetchUserData = useCallback(async () => {
+    if (user) {
+      setLoading(false);
+      return;
+    }
+
     try {
       console.log("Fetching user data...");
       const response = await authService.Me();
@@ -54,7 +60,7 @@ function Home() {
     } finally {
       setLoading(false);
     }
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   useEffect(() => {
     fetchUserData();
