@@ -12,10 +12,12 @@ namespace JobScoreServer.Services
     public class ChatService : IChatService
     {
         private readonly DBContext _dbcontext;
+        private readonly IJobEvaluatorService _jobEvaluationService;
 
-        public ChatService(DBContext dbcontext)
+        public ChatService(DBContext dbcontext, IJobEvaluatorService jobEvaluationService)
         {
             _dbcontext = dbcontext;
+            _jobEvaluationService = jobEvaluationService;
         }
 
         public async Task<int> CreateChatroom(string title, int userId)
@@ -260,6 +262,83 @@ namespace JobScoreServer.Services
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        public async Task<object?> GenerateBotMessageAsync(int chatId, string content)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(content)) return null;
+
+                // checking input
+                var lines = content.Replace("\r\n", "\n").Split('\n');
+                var firstNonEmptyIndex = Array.FindIndex(lines, l => !string.IsNullOrWhiteSpace(l));
+                if (firstNonEmptyIndex < 0) return null;
+                var firstLine = lines[firstNonEmptyIndex].Trim();
+                if (!firstLine.Equals("@BOT", StringComparison.OrdinalIgnoreCase)) return null;
+                var titleIndex = Array.FindIndex(lines, firstNonEmptyIndex + 1, l => !string.IsNullOrWhiteSpace(l));
+                if (titleIndex < 0) return null;
+                var title = lines[titleIndex].Trim();
+                var contentLines = lines.Skip(titleIndex + 1).ToArray();
+                var body = string.Join("\n", contentLines).Trim();
+                if (string.IsNullOrWhiteSpace(body)) return null;
+
+                // evaluating
+                var evalResult = await _jobEvaluationService.EvaluateOnlyAsync(title, body);
+
+                // building string response for chat
+                var sb = new System.Text.StringBuilder();
+                sb.AppendLine($"Job Description Evaluation — Title: {title}");
+                sb.AppendLine($"Score: {evalResult.score}");
+                if (evalResult.violations != null && evalResult.violations.Any())
+                {
+                    sb.AppendLine("Violations:");
+                    foreach (var v in evalResult.violations)
+                    {
+                        sb.AppendLine($"- {v.ruleTitle} (Impact: {v.impact})");
+                    }
+                }
+                else
+                {
+                    sb.AppendLine("No violations. Good job!");
+                }
+
+                var botContent = sb.ToString().TrimEnd();
+
+                var botEmail = "bot@system.local";
+                var botUser = await _dbcontext.Users.FirstOrDefaultAsync(u => u.Email == botEmail);
+                
+
+                // creating the bot message
+                var botMessageEntity = new ChatroomMessage
+                {
+                    UserId = botUser.Id,
+                    ChatroomId = chatId,
+                    Content = botContent
+                };
+
+                _dbcontext.ChatroomMessages.Add(botMessageEntity);
+                await _dbcontext.SaveChangesAsync();
+
+                var saved = await _dbcontext.ChatroomMessages
+                    .AsNoTracking()
+                    .Include(cm => cm.User)
+                    .FirstOrDefaultAsync(cm => cm.Id == botMessageEntity.Id);
+
+                if (saved == null) return null;
+
+                return new ChatMessage(
+                    saved.Id,
+                    saved.User?.FirstName,
+                    saved.User?.LastName,
+                    saved.Content,
+                    saved.CreatedAt
+                );
+            }
+            catch
+            {
+                return null;
             }
         }
 

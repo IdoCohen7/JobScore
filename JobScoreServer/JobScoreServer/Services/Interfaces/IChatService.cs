@@ -15,5 +15,7 @@ namespace JobScoreServer.Services.Interfaces
         Task<bool> SetUserAsAdmin(int actingUserId, int targetUserId, int chatroomId);
         Task<List<Chatroom>> GetChatrooms(int userId);
         Task<bool> DeleteChatroom(int actingUserId, int chatroomId);
+        Task<object?> GenerateBotMessageAsync(int chatId, string content);
+
     }
 }

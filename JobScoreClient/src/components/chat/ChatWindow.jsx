@@ -115,7 +115,7 @@ function ChatWindow({
             />
             <Typography variant="body1">No chat selected</Typography>
             <Typography variant="body2" color="text.secondary">
-              Select a conversation to see messages.
+              Select a group to see messages.
             </Typography>
           </Box>
         ) : null}
@@ -175,6 +175,7 @@ function ChatWindow({
                     <Typography
                       variant="body2"
                       className="chat-message-content"
+                      sx={{ whiteSpace: "pre-wrap" }}
                     >
                       {message.content || ""}
                     </Typography>
@@ -191,22 +192,30 @@ function ChatWindow({
 
       <Box className="chat-main-composer">
         <TextField
-          size="small"
           placeholder={
             chatroom?.id
               ? "Write your message..."
               : "Select a chat to start typing"
           }
+          multiline
+          rows={4}
           fullWidth
           value={draft}
           onChange={(event) => setDraft(event.target.value)}
           onKeyDown={(event) => {
-            if (event.key === "Enter" && !event.shiftKey) {
+            if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
               event.preventDefault();
               handleSubmit();
             }
           }}
           disabled={!chatroom?.id || sendingMessage}
+          slotProps={{
+            htmlInput: {
+              style: {
+                overflowY: "auto",
+              },
+            },
+          }}
         />
         <Button
           variant="contained"

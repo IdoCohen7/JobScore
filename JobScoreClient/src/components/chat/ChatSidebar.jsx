@@ -32,7 +32,7 @@ function ChatSidebar({
             Workspace
           </Typography>
           <Typography variant="h6" className="chat-sidebar-title">
-            Conversations
+            Chat Groups
           </Typography>
         </Box>
 
