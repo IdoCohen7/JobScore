@@ -1,0 +1,96 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\User\\Documents\\GitHub\\JobScore\\UnitTestCourse\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{673544A9-DBAA-407F-96C4-E5D607D9A8EC}|NetworkUtility.Tests\\NetworkUtility.Tests.csproj|c:\\users\\user\\documents\\github\\jobscore\\unittestcourse\\networkutility.tests\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{673544A9-DBAA-407F-96C4-E5D607D9A8EC}|NetworkUtility.Tests\\NetworkUtility.Tests.csproj|solutionrelative:networkutility.tests\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5406C092-8A25-49EE-987D-C686D9CF5338}|UnitTestCourse\\UnitTestCourse.csproj|c:\\users\\user\\documents\\github\\jobscore\\unittestcourse\\unittestcourse\\networkservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5406C092-8A25-49EE-987D-C686D9CF5338}|UnitTestCourse\\UnitTestCourse.csproj|solutionrelative:unittestcourse\\networkservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5406C092-8A25-49EE-987D-C686D9CF5338}|UnitTestCourse\\UnitTestCourse.csproj|c:\\users\\user\\documents\\github\\jobscore\\unittestcourse\\unittestcourse\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5406C092-8A25-49EE-987D-C686D9CF5338}|UnitTestCourse\\UnitTestCourse.csproj|solutionrelative:unittestcourse\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5406C092-8A25-49EE-987D-C686D9CF5338}|UnitTestCourse\\UnitTestCourse.csproj|c:\\users\\user\\documents\\github\\jobscore\\unittestcourse\\unittestcourse\\unittestcourse.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{5406C092-8A25-49EE-987D-C686D9CF5338}|UnitTestCourse\\UnitTestCourse.csproj|solutionrelative:unittestcourse\\unittestcourse.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "NetworkService.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\JobScore\\UnitTestCourse\\UnitTestCourse\\NetworkService.cs",
+              "RelativeDocumentMoniker": "UnitTestCourse\\NetworkService.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\JobScore\\UnitTestCourse\\UnitTestCourse\\NetworkService.cs",
+              "RelativeToolTip": "UnitTestCourse\\NetworkService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-22T09:03:16.958Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UnitTestCourse",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\JobScore\\UnitTestCourse\\UnitTestCourse\\UnitTestCourse.csproj",
+              "RelativeDocumentMoniker": "UnitTestCourse\\UnitTestCourse.csproj",
+              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\JobScore\\UnitTestCourse\\UnitTestCourse\\UnitTestCourse.csproj",
+              "RelativeToolTip": "UnitTestCourse\\UnitTestCourse.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-03-22T09:02:55.632Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UnitTest1.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\JobScore\\UnitTestCourse\\NetworkUtility.Tests\\UnitTest1.cs",
+              "RelativeDocumentMoniker": "NetworkUtility.Tests\\UnitTest1.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\JobScore\\UnitTestCourse\\NetworkUtility.Tests\\UnitTest1.cs",
+              "RelativeToolTip": "NetworkUtility.Tests\\UnitTest1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-22T09:02:28.588Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\JobScore\\UnitTestCourse\\UnitTestCourse\\Program.cs",
+              "RelativeDocumentMoniker": "UnitTestCourse\\Program.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\JobScore\\UnitTestCourse\\UnitTestCourse\\Program.cs",
+              "RelativeToolTip": "UnitTestCourse\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwBcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-22T08:47:15.659Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

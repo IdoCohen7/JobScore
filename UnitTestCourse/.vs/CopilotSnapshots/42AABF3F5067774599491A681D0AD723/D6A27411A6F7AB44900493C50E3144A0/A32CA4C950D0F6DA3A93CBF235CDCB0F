@@ -1,0 +1,14 @@
+﻿
+public class DumbFunction
+{
+    public string IsPikachu(int num)
+    {
+        if (num == 0)
+        {
+            return "Pikachu!";
+
+        }
+
+        else return "sqiurtle..";
+    }
+}

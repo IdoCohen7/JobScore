@@ -1,0 +1,15 @@
+C:\Users\User\Documents\GitHub\JobScore\UnitTestCourse\UnitTestCourse\obj\Debug\net8.0\UnitTestCourse.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Documents\GitHub\JobScore\UnitTestCourse\UnitTestCourse\obj\Debug\net8.0\UnitTestCourse.AssemblyInfoInputs.cache
+C:\Users\User\Documents\GitHub\JobScore\UnitTestCourse\UnitTestCourse\obj\Debug\net8.0\UnitTestCourse.AssemblyInfo.cs
+C:\Users\User\Documents\GitHub\JobScore\UnitTestCourse\UnitTestCourse\obj\Debug\net8.0\UnitTestCourse.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\GitHub\JobScore\UnitTestCourse\UnitTestCourse\obj\Debug\net8.0\UnitTestCourse.sourcelink.json
+C:\Users\User\Documents\GitHub\JobScore\UnitTestCourse\UnitTestCourse\bin\Debug\net8.0\UnitTestCourse.deps.json
+C:\Users\User\Documents\GitHub\JobScore\UnitTestCourse\UnitTestCourse\bin\Debug\net8.0\UnitTestCourse.dll
+C:\Users\User\Documents\GitHub\JobScore\UnitTestCourse\UnitTestCourse\bin\Debug\net8.0\UnitTestCourse.pdb
+C:\Users\User\Documents\GitHub\JobScore\UnitTestCourse\UnitTestCourse\obj\Debug\net8.0\UnitTestCourse.dll
+C:\Users\User\Documents\GitHub\JobScore\UnitTestCourse\UnitTestCourse\obj\Debug\net8.0\refint\UnitTestCourse.dll
+C:\Users\User\Documents\GitHub\JobScore\UnitTestCourse\UnitTestCourse\obj\Debug\net8.0\UnitTestCourse.pdb
+C:\Users\User\Documents\GitHub\JobScore\UnitTestCourse\UnitTestCourse\obj\Debug\net8.0\ref\UnitTestCourse.dll
+C:\Users\User\Documents\GitHub\JobScore\UnitTestCourse\UnitTestCourse\bin\Debug\net8.0\UnitTestCourse.exe
+C:\Users\User\Documents\GitHub\JobScore\UnitTestCourse\UnitTestCourse\bin\Debug\net8.0\UnitTestCourse.runtimeconfig.json
+C:\Users\User\Documents\GitHub\JobScore\UnitTestCourse\UnitTestCourse\obj\Debug\net8.0\UnitTestCourse.genruntimeconfig.cache
